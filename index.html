@@ -3,59 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manual de Implantación: Bases de Datos</title>
+    <title>Manual Técnico: Bases de Datos e Implantación</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* --- Variables de Diseño (Tema Empresarial) --- */
+        /* --- Variables de Diseño (Estilo Empresarial Moderno) --- */
         :root {
-            --primary: #0f172a;      /* Azul noche oscuro */
-            --accent: #3b82f6;       /* Azul corporativo brillante */
-            --bg-body: #f8fafc;      /* Gris muy claro */
-            --bg-sidebar: #ffffff;   /* Blanco */
-            --text-main: #334155;    /* Gris oscuro */
-            --text-light: #64748b;   /* Gris medio */
-            --border: #e2e8f0;       /* Borde sutil */
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --primary-dark: #1e293b;    /* Azul Pizarra Oscuro */
+            --primary-brand: #3b82f6;   /* Azul Corporativo */
+            --bg-sidebar: #f8fafc;      /* Gris muy claro */
+            --bg-content: #ffffff;      /* Blanco */
+            --text-main: #334155;       /* Gris texto */
+            --text-headings: #0f172a;   /* Negro azulado */
+            --border-color: #e2e8f0;
+            --accent-success: #10b981;
+            --accent-warning: #f59e0b;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
         }
 
-        /* --- Reset y Base --- */
+        /* --- Reset & Base --- */
         * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-body);
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-content);
             color: var(--text-main);
             margin: 0;
-            line-height: 1.7;
-        }
-
-        /* --- Layout Principal (Grid) --- */
-        .layout-container {
-            display: grid;
-            grid-template-columns: 280px 1fr; /* Sidebar fijo 280px, resto flexible */
+            line-height: 1.6;
+            display: flex;
             min-height: 100vh;
         }
 
-        /* --- Sidebar (Índice) --- */
+        /* --- Sidebar de Navegación (Sticky) --- */
         aside {
+            width: 280px;
             background-color: var(--bg-sidebar);
-            border-right: 1px solid var(--border);
-            padding: 2rem;
+            border-right: 1px solid var(--border-color);
+            height: 100vh;
             position: sticky;
             top: 0;
-            height: 100vh;
             overflow-y: auto;
+            flex-shrink: 0;
             display: flex;
             flex-direction: column;
+            z-index: 100;
         }
 
-        .brand {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 3rem;
-            letter-spacing: -0.5px;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--border);
+        .brand-area {
+            padding: 2rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .brand-area h2 {
+            margin: 0;
+            font-size: 1.1rem;
+            color: var(--primary-dark);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .brand-area span {
+            font-size: 0.8rem;
+            color: var(--primary-brand);
+            font-weight: 600;
+        }
+
+        nav {
+            padding: 1.5rem 1rem;
+            flex-grow: 1;
         }
 
         nav ul {
@@ -64,311 +80,417 @@
             margin: 0;
         }
 
-        nav li { margin-bottom: 0.5rem; }
+        nav li { margin-bottom: 0.25rem; }
 
         nav a {
-            display: block;
-            text-decoration: none;
-            color: var(--text-light);
+            display: flex;
+            align-items: center;
             padding: 0.75rem 1rem;
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.9rem;
             border-radius: 6px;
-            font-size: 0.95rem;
-            font-weight: 500;
-            transition: all 0.2s ease; /* Animación suave */
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             border-left: 3px solid transparent;
         }
 
-        /* Animaciones de Hover en el Menú */
         nav a:hover {
-            background-color: #f1f5f9;
-            color: var(--accent);
-            border-left-color: var(--accent);
-            transform: translateX(4px); /* Pequeño desplazamiento a la derecha */
+            background-color: #eef2ff;
+            color: var(--primary-brand);
+            transform: translateX(4px);
+        }
+
+        nav a.active {
+            background-color: #dbeafe;
+            color: var(--primary-brand);
+            border-left-color: var(--primary-brand);
+            font-weight: 600;
+        }
+
+        .sidebar-footer {
+            padding: 1.5rem;
+            font-size: 0.75rem;
+            color: #94a3b8;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
         }
 
         /* --- Contenido Principal --- */
         main {
-            padding: 4rem 5rem;
-            max-width: 1000px; /* Ancho de lectura óptimo */
+            flex-grow: 1;
+            padding: 4rem 6rem;
+            max-width: 1200px; /* Lectura cómoda */
         }
 
-        header { margin-bottom: 4rem; }
-
+        /* Tipografía y Elementos */
         h1 {
             font-size: 2.5rem;
-            color: var(--primary);
-            margin: 0 0 0.5rem 0;
+            color: var(--text-headings);
+            margin-bottom: 0.5rem;
             letter-spacing: -1px;
         }
 
-        .subtitle {
-            color: var(--text-light);
-            font-size: 1.1rem;
+        .lead {
+            font-size: 1.2rem;
+            color: #64748b;
+            margin-bottom: 4rem;
+            max-width: 800px;
         }
 
         section {
             margin-bottom: 5rem;
-            padding-top: 1rem; /* Espacio para el anclaje del scroll */
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 3rem;
+            scroll-margin-top: 2rem; /* Espacio al hacer scroll con ancla */
         }
-
-        section:last-child { border-bottom: none; }
 
         h2 {
-            font-size: 1.8rem;
-            color: var(--primary);
+            font-size: 1.75rem;
+            color: var(--primary-dark);
             margin-bottom: 1.5rem;
-            position: relative;
-        }
-        
-        /* Adorno minimalista bajo los títulos H2 */
-        h2::after {
-            content: '';
-            display: block;
-            width: 40px;
-            height: 4px;
-            background-color: var(--accent);
-            margin-top: 0.5rem;
-            border-radius: 2px;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         h3 {
-            font-size: 1.3rem;
-            color: var(--text-main);
+            font-size: 1.25rem;
+            color: var(--text-headings);
             margin-top: 2rem;
-            font-weight: 600;
+            margin-bottom: 1rem;
         }
 
-        p, li { color: var(--text-main); }
+        p { margin-bottom: 1rem; color: #475569; }
 
-        ul, ol { margin-left: 1.5rem; }
-        li { margin-bottom: 0.5rem; }
-
-        /* --- Elementos Destacados --- */
-        
-        /* Conceptos Clave */
-        strong {
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        /* Bloques de Código */
-        pre {
-            background-color: #1e293b; /* Fondo oscuro tipo editor */
-            color: #e2e8f0;
-            padding: 1.5rem;
-            border-radius: 8px;
-            overflow-x: auto;
-            font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 0.9rem;
-            margin: 1.5rem 0;
-            box-shadow: var(--shadow);
-        }
-
-        /* Citas / Notas Importantes */
-        blockquote {
-            background-color: #eff6ff; /* Azul muy pálido */
-            border-left: 4px solid var(--accent);
-            margin: 2rem 0;
-            padding: 1.5rem;
-            color: #1e3a8a;
-            font-style: italic;
-            border-radius: 0 6px 6px 0;
-        }
-
-        /* Tablas minimalistas */
-        table {
+        /* Tablas Profesionales */
+        .data-table {
             width: 100%;
             border-collapse: collapse;
             margin: 2rem 0;
-            font-size: 0.95rem;
+            background: white;
+            box-shadow: var(--shadow-sm);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
         }
-        th {
+        .data-table th {
+            background-color: var(--primary-dark);
+            color: white;
             text-align: left;
             padding: 1rem;
-            background-color: #f1f5f9;
-            border-bottom: 2px solid var(--border);
-            color: var(--primary);
-        }
-        td {
-            padding: 1rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        /* --- Footer --- */
-        footer {
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border);
-            color: var(--text-light);
+            font-weight: 600;
             font-size: 0.9rem;
-            text-align: center;
+        }
+        .data-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.95rem;
+        }
+        .data-table tr:last-child td { border-bottom: none; }
+        .data-table tr:hover { background-color: #f8fafc; }
+
+        /* Bloques de Código (Terminal style) */
+        .code-block {
+            background-color: #1e293b;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--primary-brand);
+            box-shadow: var(--shadow-md);
+        }
+        .code-comment { color: #94a3b8; font-style: italic; }
+        .code-keyword { color: #c084fc; }
+        .code-string { color: #4ade80; }
+
+        /* Tarjetas de Conceptos */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .card {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary-brand);
+        }
+        .card h4 { margin-top: 0; color: var(--primary-brand); }
+
+        /* Alertas / Notas */
+        .alert {
+            padding: 1rem 1.5rem;
+            border-radius: 6px;
+            margin: 2rem 0;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+        .alert-info {
+            background-color: #eff6ff;
+            color: #1e40af;
+            border: 1px solid #dbeafe;
+        }
+        .alert-warning {
+            background-color: #fff7ed;
+            color: #9a3412;
+            border: 1px solid #ffedd5;
         }
 
-        /* --- Responsividad (Mobile) --- */
-        @media (max-width: 768px) {
-            .layout-container {
-                grid-template-columns: 1fr; /* Una sola columna */
-            }
-
-            aside {
-                height: auto;
-                position: relative;
+        /* Responsive */
+        @media (max-width: 900px) {
+            body { flex-direction: column; }
+            aside { 
+                width: 100%; 
+                height: auto; 
+                position: relative; 
                 border-right: none;
-                border-bottom: 1px solid var(--border);
-                padding: 1.5rem;
+                border-bottom: 1px solid var(--border-color);
             }
-
-            main {
-                padding: 2rem 1.5rem;
+            nav ul { 
+                display: flex; 
+                overflow-x: auto; 
+                padding-bottom: 0.5rem;
             }
-
-            h1 { font-size: 2rem; }
+            nav a { white-space: nowrap; }
+            main { padding: 2rem; }
+            .card-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-<div class="layout-container">
-    <!-- BARRA LATERAL (Navegación) -->
+    <!-- SIDEBAR FIJO -->
     <aside>
-        <div class="brand">SYS.IMPLANTATION</div>
+        <div class="brand-area">
+            <h2>SysAdmin<br><span>Manual v2.0</span></h2>
+        </div>
         <nav>
             <ul>
-                <li><a href="#intro">1. Introducción y Fases</a></li>
-                <li><a href="#modelo-er">2. Modelo Entidad-Relación</a></li>
+                <li><a href="#intro">1. Introducción y Ciclo</a></li>
+                <li><a href="#diseno-logico">2. Diseño Lógico (E-R)</a></li>
                 <li><a href="#normalizacion">3. Normalización</a></li>
-                <li><a href="#sgbd">4. Selección del SGBD</a></li>
-                <li><a href="#implantacion">5. Implantación Física</a></li>
+                <li><a href="#seleccion-sgbd">4. Selección de SGBD</a></li>
+                <li><a href="#seguridad">5. Seguridad y Usuarios</a></li>
+                <li><a href="#respaldos">6. Estrategias de Backup</a></li>
+                <li><a href="#optimizacion">7. Optimización</a></li>
             </ul>
         </nav>
+        <div class="sidebar-footer">
+            &copy; 2025 Dept. Implantación
+        </div>
     </aside>
 
     <!-- CONTENIDO PRINCIPAL -->
     <main>
         <header>
-            <h1>Manual de Bases de Datos</h1>
-            <p class="subtitle">Guía técnica para la asignatura de Implantación de Sistemas</p>
+            <h1>Implantación de Bases de Datos</h1>
+            <p class="lead">Guía integral para el diseño, despliegue y administración de sistemas de almacenamiento de datos en entornos corporativos.</p>
         </header>
 
-        <!-- SECCIÓN 1 -->
+        <!-- SECCIÓN 1: INTRODUCCIÓN -->
         <section id="intro">
-            <h2>1. Fases del Diseño</h2>
-            <p>En la implantación de sistemas, la base de datos no se crea de la nada. Sigue un ciclo de vida estructurado para garantizar que los datos sean íntegros y el sistema eficiente.</p>
+            <h2>1. Ciclo de Vida en la Implantación</h2>
+            <p>La implantación de una base de datos no es un evento aislado, sino un proceso continuo integrado en el desarrollo del software.</p>
             
-            <h3>Las 3 Etapas Críticas</h3>
-            <ol>
-                <li><strong>Diseño Conceptual:</strong> Es la etapa de abstracción. Se identifican las necesidades del negocio sin pensar en tecnología. El resultado es el diagrama E-R.</li>
-                <li><strong>Diseño Lógico:</strong> Se transforma el concepto en estructuras de datos (tablas). Aquí se aplican las reglas de normalización para evitar duplicidad.</li>
-                <li><strong>Diseño Físico:</strong> Es la implementación real en el servidor. Involucra configuración de almacenamiento, índices y seguridad.</li>
-            </ol>
+            <div class="card-grid">
+                <div class="card">
+                    <h4>1. Análisis de Requisitos</h4>
+                    <p>Recopilación de reglas de negocio. ¿Qué datos necesitamos? ¿Quién los usará? ¿Con qué frecuencia?</p>
+                </div>
+                <div class="card">
+                    <h4>2. Diseño (Conceptual/Lógico)</h4>
+                    <p>Creación de esquemas independientes de la tecnología. Diagramas E-R y diccionarios de datos.</p>
+                </div>
+                <div class="card">
+                    <h4>3. Implementación Física</h4>
+                    <p>Instalación del SGBD, configuración de discos, memoria y creación de tablas con SQL (DDL).</p>
+                </div>
+            </div>
         </section>
 
-        <!-- SECCIÓN 2 -->
-        <section id="modelo-er">
-            <h2>2. Modelo Entidad-Relación (E-R)</h2>
-            <p>Herramienta visual para representar la estructura lógica de la base de datos.</p>
+        <!-- SECCIÓN 2: DISEÑO LÓGICO -->
+        <section id="diseno-logico">
+            <h2>2. Diseño Lógico y Diagramas E-R</h2>
+            <p>El modelo Entidad-Relación es el estándar para visualizar la estructura de datos antes de escribir código.</p>
             
             
-            <table>
+
+            <table class="data-table">
                 <thead>
                     <tr>
-                        <th>Elemento</th>
+                        <th>Concepto</th>
                         <th>Descripción</th>
-                        <th>Representación</th>
+                        <th>Cardinalidad Típica</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><strong>Entidad</strong></td>
-                        <td>Objeto real o abstracto (Cliente, Factura).</td>
-                        <td>Rectángulo</td>
+                        <td><strong>Relación 1:1</strong></td>
+                        <td>Un registro se asocia con uno solo en otra tabla.</td>
+                        <td>Empleado - Credencial de Acceso</td>
                     </tr>
                     <tr>
-                        <td><strong>Relación</strong></td>
-                        <td>Asociación entre entidades (Compra, Pertenece).</td>
-                        <td>Rombo</td>
+                        <td><strong>Relación 1:N</strong></td>
+                        <td>Un registro padre tiene muchos hijos.</td>
+                        <td>Cliente - Pedidos</td>
                     </tr>
                     <tr>
-                        <td><strong>Atributo</strong></td>
-                        <td>Propiedad de la entidad (Nombre, Precio).</td>
-                        <td>Elipse / Lista</td>
+                        <td><strong>Relación N:M</strong></td>
+                        <td>Muchos contra muchos. Requiere una <em>tabla intermedia</em>.</td>
+                        <td>Estudiantes - Asignaturas</td>
                     </tr>
                 </tbody>
             </table>
-
-            <blockquote>
-                <strong>Nota de Implantación:</strong> Un error en el modelo E-R es costoso de corregir una vez que el sistema está en producción. Dedica tiempo a validar las relaciones.
-            </blockquote>
         </section>
 
-        <!-- SECCIÓN 3 -->
+        <!-- SECCIÓN 3: NORMALIZACIÓN -->
         <section id="normalizacion">
             <h2>3. Normalización</h2>
-            <p>Proceso matemático para organizar los datos y minimizar la redundancia. En sistemas empresariales, buscamos llegar hasta la Tercera Forma Normal (3FN).</p>
+            <p>Proceso crítico para reducir la redundancia y evitar anomalías en la actualización de datos. En implantación, el objetivo estándar es la <strong>3FN</strong>.</p>
 
-            <h3>Reglas Esenciales</h3>
+            <div class="alert alert-info">
+                <strong>Regla de Oro:</strong> Una base de datos mal normalizada será rápida al principio, pero insostenible a largo plazo debido a datos duplicados e inconsistentes.
+            </div>
+
+            <h3>Formas Normales Esenciales</h3>
             <ul>
-                <li><strong>1FN (Atomicidad):</strong> Cada celda de la tabla debe contener un único valor. Nada de listas separadas por comas.</li>
-                <li><strong>2FN (Dependencia Total):</strong> Todo atributo que no sea clave debe depender de <em>toda</em> la clave primaria (vital en claves compuestas).</li>
-                <li><strong>3FN (Independencia):</strong> No deben existir dependencias entre columnas que no son clave. Ej: La columna "NombreProvincia" no debe depender de "CodigoPostal" si la clave es "ID_Usuario".</li>
+                <li><strong>1FN:</strong> Eliminar grupos repetidos. Cada celda debe ser atómica.</li>
+                <li><strong>2FN:</strong> Eliminar dependencias parciales (todo atributo no clave debe depender de la clave primaria completa).</li>
+                <li><strong>3FN:</strong> Eliminar dependencias transitivas (atributos no clave que dependen de otros atributos no clave).</li>
             </ul>
         </section>
 
-        <!-- SECCIÓN 4 -->
-        <section id="sgbd">
+        <!-- SECCIÓN 4: SELECCIÓN SGBD -->
+        <section id="seleccion-sgbd">
             <h2>4. Selección del SGBD</h2>
-            <p>La decisión tecnológica más importante antes de instalar el software.</p>
+            <p>Factores a considerar durante la implantación: Costo de licencia, soporte técnico, comunidad y escalabilidad.</p>
 
-            <h3>SQL (Relacionales)</h3>
-            <p>Estructurados, rígidos y seguros. Ideales para sistemas transaccionales (ERP, CRM, Contabilidad).</p>
-            <ul>
-                <li><strong>MySQL / MariaDB:</strong> Estándar web, licencia flexible.</li>
-                <li><strong>PostgreSQL:</strong> El más avanzado y robusto de código abierto.</li>
-                <li><strong>SQL Server:</strong> Integración nativa con entornos corporativos Microsoft.</li>
-            </ul>
-
-            <h3>NoSQL (No Relacionales)</h3>
-            <p>Flexibles y escalables. Ideales para Big Data, IoT o contenido dinámico.</p>
-            <ul>
-                <li><strong>MongoDB:</strong> Basado en documentos JSON.</li>
-                <li><strong>Redis:</strong> Almacenamiento clave-valor en memoria (velocidad extrema).</li>
-            </ul>
+            <div class="card-grid">
+                <div class="card">
+                    <h4>PostgreSQL</h4>
+                    <p><strong>Tipo:</strong> Relacional (ORDBMS)<br>Ideal para sistemas complejos, GIS y alta concurrencia. Open Source robusto.</p>
+                </div>
+                <div class="card">
+                    <h4>MySQL / MariaDB</h4>
+                    <p><strong>Tipo:</strong> Relacional<br>Estándar para aplicaciones web. Muy rápido en lecturas, fácil de replicar.</p>
+                </div>
+                <div class="card">
+                    <h4>MongoDB</h4>
+                    <p><strong>Tipo:</strong> NoSQL (Documental)<br>Esquema flexible (JSON). Perfecto para catálogos dinámicos o Big Data.</p>
+                </div>
+            </div>
         </section>
 
-        <!-- SECCIÓN 5 -->
-        <section id="implantacion">
-            <h2>5. Implantación Física</h2>
-            <p>Pasos técnicos para poner el sistema en marcha (Deployment).</p>
-
-            <h3>1. DDL (Data Definition Language)</h3>
-            <p>Es el script que crea la estructura. Ejemplo de creación de una tabla optimizada:</p>
+        <!-- SECCIÓN 5: SEGURIDAD (NUEVO) -->
+        <section id="seguridad">
+            <h2>5. Seguridad y Gestión de Usuarios (DCL)</h2>
+            <p>La seguridad es una capa fundamental en la implantación. Se maneja mediante el lenguaje DCL (Data Control Language).</p>
             
-            <pre>
-CREATE TABLE Usuarios (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(150) UNIQUE NOT NULL,
-    password_hash CHAR(64) NOT NULL,
-    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    INDEX idx_email (email) -- Índice para búsquedas rápidas
-) ENGINE=InnoDB;</pre>
+            <h3>Principio de Menor Privilegio</h3>
+            <p>Nunca usar el usuario <code>root</code> para la aplicación. Se deben crear usuarios con permisos específicos.</p>
 
-            <h3>2. Conexión desde el Sistema</h3>
-            <p>Configuración típica en un archivo de entorno (<code>.env</code>) para seguridad:</p>
-            <pre>
-DB_HOST=192.168.1.50
-DB_PORT=3306
-DB_NAME=sistema_ventas
-DB_USER=app_user
-DB_PASS=secret_secure_password</pre>
+            <div class="code-block">
+                <span class="code-comment">-- 1. Crear un rol para la aplicación</span><br>
+                <span class="code-keyword">CREATE USER</span> 'app_ventas'@'192.168.1.50' <span class="code-keyword">IDENTIFIED BY</span> 'SecureP@ssw0rd!';<br><br>
+                
+                <span class="code-comment">-- 2. Asignar permisos solo necesarios (CRUD básico)</span><br>
+                <span class="code-keyword">GRANT SELECT, INSERT, UPDATE</span> <span class="code-keyword">ON</span> tienda.pedidos <span class="code-keyword">TO</span> 'app_ventas';<br><br>
+                
+                <span class="code-comment">-- 3. Aplicar cambios</span><br>
+                <span class="code-keyword">FLUSH PRIVILEGES</span>;
+            </div>
+
+            <div class="alert alert-warning">
+                <strong>Seguridad Física:</strong> Además de SQL, asegúrate de que el puerto de la base de datos (ej. 3306, 5432) no esté expuesto directamente a internet, sino solo a la red interna o VPN.
+            </div>
         </section>
 
-        <footer>
-            <p>© 2025 Manual de Implantación de Sistemas | Versión 1.0</p>
-        </footer>
-    </main>
-</div>
+        <!-- SECCIÓN 6: RESPALDOS (NUEVO) -->
+        <section id="respaldos">
+            <h2>6. Estrategias de Backup</h2>
+            <p>Un sistema sin plan de recuperación ante desastres (Disaster Recovery) es un sistema incompleto. Tipos de respaldos:</p>
 
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Descripción</th>
+                        <th>Ventaja/Desventaja</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Completo (Full)</strong></td>
+                        <td>Copia todo el contenido de la BD.</td>
+                        <td>Recuperación rápida / Lento de generar, ocupa mucho espacio.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Incremental</strong></td>
+                        <td>Copia solo lo que cambió desde el último respaldo (cualquiera).</td>
+                        <td>Muy rápido de hacer / Lento de restaurar (requiere secuencia completa).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Diferencial</strong></td>
+                        <td>Copia todo lo que cambió desde el último respaldo <em>completo</em>.</td>
+                        <td>Equilibrio entre velocidad de copia y restauración.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- SECCIÓN 7: OPTIMIZACIÓN (NUEVO) -->
+        <section id="optimizacion">
+            <h2>7. Optimización e Índices</h2>
+            <p>Cuando el sistema crece, las consultas se vuelven lentas. La solución principal es el uso correcto de <strong>Índices</strong>.</p>
+            
+            <h3>¿Qué es un Índice?</h3>
+            <p>Es una estructura de datos (generalmente B-Tree) que mejora la velocidad de recuperación de datos a costa de ralentizar ligeramente las escrituras (INSERT/UPDATE).</p>
+
+            <div class="code-block">
+                <span class="code-comment">-- Ejemplo: Crear índice para búsquedas por email</span><br>
+                <span class="code-keyword">CREATE INDEX</span> idx_cliente_email <span class="code-keyword">ON</span> Clientes(email);<br><br>
+                
+                <span class="code-comment">-- Análisis de consulta (Query Plan)</span><br>
+                <span class="code-keyword">EXPLAIN SELECT</span> * <span class="code-keyword">FROM</span> Clientes <span class="code-keyword">WHERE</span> email = 'user@empresa.com';
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Script simple para resaltar el link activo en el sidebar al hacer scroll
+        const sections = document.querySelectorAll('section');
+        const navLi = document.querySelectorAll('aside nav ul li a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= (sectionTop - 150)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLi.forEach(a => {
+                a.classList.remove('active');
+                if (a.getAttribute('href').includes(current)) {
+                    if(current !== '') a.classList.add('active');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
