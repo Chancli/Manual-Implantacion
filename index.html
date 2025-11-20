@@ -3,296 +3,372 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manual: Bases de Datos en Implantación de Sistemas</title>
-    
+    <title>Manual de Implantación: Bases de Datos</title>
     <style>
-        /* -------------------------------------- */
-        /* 1. Reset Básico y Tipografía */
-        /* -------------------------------------- */
-        body {
-            font-family: 'Helvetica Neue', Arial, sans-serif; 
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-            color: #333;
-            line-height: 1.6;
+        /* --- Variables de Diseño (Tema Empresarial) --- */
+        :root {
+            --primary: #0f172a;      /* Azul noche oscuro */
+            --accent: #3b82f6;       /* Azul corporativo brillante */
+            --bg-body: #f8fafc;      /* Gris muy claro */
+            --bg-sidebar: #ffffff;   /* Blanco */
+            --text-main: #334155;    /* Gris oscuro */
+            --text-light: #64748b;   /* Gris medio */
+            --border: #e2e8f0;       /* Borde sutil */
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
-        header {
-            background-color: #004c99; /* Azul oscuro corporativo */
-            color: white;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        /* -------------------------------------- */
-        /* 2. Flexbox y Estructura Principal */
-        /* -------------------------------------- */
-        main {
-            display: flex; 
-            max-width: 1300px;
-            margin: 20px auto;
-            background-color: white;
-            border-radius: 8px;
-            overflow: hidden; /* Importante para el sticky sidebar */
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
-        }
-
-        #sidebar {
-            width: 280px; /* Ancho cómodo para el índice */
-            flex-shrink: 0; 
-            padding: 20px 0 20px 20px;
-            background-color: #e9ecef;
-            border-right: 1px solid #ccc;
-            /* Sticky en escritorio */
-            position: sticky;
-            top: 0; 
-            max-height: 100vh; 
-            overflow-y: auto;
-        }
-
-        #content {
-            flex-grow: 1; 
-            padding: 30px 50px; 
-        }
-
-        /* -------------------------------------- */
-        /* 3. Estilos de Índice (Sidebar) */
-        /* -------------------------------------- */
-        #sidebar h2 {
-            color: #004c99;
-            margin-top: 0;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #004c99;
-        }
+        /* --- Reset y Base --- */
+        * { box-sizing: border-box; }
         
-        #sidebar ul {
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            margin: 0;
+            line-height: 1.7;
+        }
+
+        /* --- Layout Principal (Grid) --- */
+        .layout-container {
+            display: grid;
+            grid-template-columns: 280px 1fr; /* Sidebar fijo 280px, resto flexible */
+            min-height: 100vh;
+        }
+
+        /* --- Sidebar (Índice) --- */
+        aside {
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border);
+            padding: 2rem;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 3rem;
+            letter-spacing: -0.5px;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        nav ul {
             list-style: none;
             padding: 0;
+            margin: 0;
         }
-        
-        #sidebar a {
-            text-decoration: none;
-            color: #333;
+
+        nav li { margin-bottom: 0.5rem; }
+
+        nav a {
             display: block;
-            padding: 10px 15px;
-            border-radius: 4px;
-            transition: background-color 0.2s;
+            text-decoration: none;
+            color: var(--text-light);
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.2s ease; /* Animación suave */
+            border-left: 3px solid transparent;
         }
 
-        #sidebar a:hover {
-            background-color: #d1d8df;
-            color: #004c99;
+        /* Animaciones de Hover en el Menú */
+        nav a:hover {
+            background-color: #f1f5f9;
+            color: var(--accent);
+            border-left-color: var(--accent);
+            transform: translateX(4px); /* Pequeño desplazamiento a la derecha */
         }
 
-        /* -------------------------------------- */
-        /* 4. Estilos de Contenido y Semántica */
-        /* -------------------------------------- */
-        article {
-            margin-bottom: 50px;
-            padding-bottom: 20px;
-            border-bottom: 1px dashed #ddd;
+        /* --- Contenido Principal --- */
+        main {
+            padding: 4rem 5rem;
+            max-width: 1000px; /* Ancho de lectura óptimo */
         }
-        
-        article:last-child {
-            border-bottom: none;
+
+        header { margin-bottom: 4rem; }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin: 0 0 0.5rem 0;
+            letter-spacing: -1px;
         }
+
+        .subtitle {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            padding-top: 1rem; /* Espacio para el anclaje del scroll */
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 3rem;
+        }
+
+        section:last-child { border-bottom: none; }
 
         h2 {
-            color: #007bff; /* Títulos de sección en azul claro */
-            font-size: 1.8em;
-            margin-top: 0;
-            margin-bottom: 20px;
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        /* Adorno minimalista bajo los títulos H2 */
+        h2::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 4px;
+            background-color: var(--accent);
+            margin-top: 0.5rem;
+            border-radius: 2px;
         }
 
         h3 {
-            color: #333;
-            border-left: 4px solid #007bff;
-            padding-left: 10px;
-            margin-top: 30px;
+            font-size: 1.3rem;
+            color: var(--text-main);
+            margin-top: 2rem;
+            font-weight: 600;
         }
 
-        /* Términos Definidos (mejor que solo negrita) */
-        dfn {
-            font-weight: bold;
-            font-style: normal;
-            color: #a00000; /* Rojo borgoña para términos clave */
-            background-color: #ffcccc20;
-            padding: 2px 4px;
-            border-radius: 3px;
+        p, li { color: var(--text-main); }
+
+        ul, ol { margin-left: 1.5rem; }
+        li { margin-bottom: 0.5rem; }
+
+        /* --- Elementos Destacados --- */
+        
+        /* Conceptos Clave */
+        strong {
+            color: var(--primary);
+            font-weight: 600;
         }
 
-        /* Código / Comandos SQL */
-        code {
-            background-color: #f0f0f0;
-            padding: 2px 4px;
-            border-radius: 3px;
-            font-family: Consolas, 'Courier New', monospace;
-            color: #1a1a1a;
+        /* Bloques de Código */
+        pre {
+            background-color: #1e293b; /* Fondo oscuro tipo editor */
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            margin: 1.5rem 0;
+            box-shadow: var(--shadow);
         }
 
-        /* Blockquotes para citas o notas importantes */
+        /* Citas / Notas Importantes */
         blockquote {
-            border-left: 5px solid #28a745; /* Verde para destacar notas */
-            background-color: #eaf7ee;
-            padding: 15px;
-            margin: 20px 0;
+            background-color: #eff6ff; /* Azul muy pálido */
+            border-left: 4px solid var(--accent);
+            margin: 2rem 0;
+            padding: 1.5rem;
+            color: #1e3a8a;
             font-style: italic;
-            color: #38761d;
-            border-radius: 4px;
+            border-radius: 0 6px 6px 0;
         }
 
-        /* -------------------------------------- */
-        /* 5. Responsividad Móvil */
-        /* -------------------------------------- */
-        @media (max-width: 900px) {
-            main {
-                flex-direction: column; /* Apila elementos */
-                margin: 0;
-                border-radius: 0;
-                box-shadow: none;
+        /* Tablas minimalistas */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            font-size: 0.95rem;
+        }
+        th {
+            text-align: left;
+            padding: 1rem;
+            background-color: #f1f5f9;
+            border-bottom: 2px solid var(--border);
+            color: var(--primary);
+        }
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* --- Footer --- */
+        footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-light);
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        /* --- Responsividad (Mobile) --- */
+        @media (max-width: 768px) {
+            .layout-container {
+                grid-template-columns: 1fr; /* Una sola columna */
             }
 
-            #sidebar {
-                width: 100%; /* Ocupa todo el ancho */
+            aside {
+                height: auto;
+                position: relative;
                 border-right: none;
-                border-bottom: 1px solid #ccc; 
-                position: static; /* Desactiva sticky en móvil */
-                max-height: initial; 
-                overflow-y: initial;
-                padding: 15px;
+                border-bottom: 1px solid var(--border);
+                padding: 1.5rem;
             }
 
-            #content {
-                padding: 15px;
+            main {
+                padding: 2rem 1.5rem;
             }
 
-            /* Mostrar el índice como un menú desplegable simplificado en móvil */
-            #sidebar ul {
-                display: flex;
-                flex-wrap: wrap; /* Permite que los ítems se envuelvan */
-                gap: 5px;
-            }
-
-            #sidebar li {
-                flex: 1 1 auto; /* Permite a los ítems ajustarse al contenido */
-                min-width: 45%; /* Mínimo de dos columnas por fila */
-            }
-
-            #sidebar a {
-                text-align: center;
-                border: 1px solid #ccc;
-            }
+            h1 { font-size: 2rem; }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>📚 Manual: Bases de Datos en Implantación de Sistemas</h1>
-        <p>Conceptos esenciales desde el diseño conceptual hasta la puesta en marcha.</p>
-    </header>
-    
-    <main>
-        <nav id="sidebar">
-            <h2>Índice Temático</h2>
+
+<div class="layout-container">
+    <!-- BARRA LATERAL (Navegación) -->
+    <aside>
+        <div class="brand">SYS.IMPLANTATION</div>
+        <nav>
             <ul>
-                <li><a href="#fase-1">1. Fases del Diseño</a></li>
-                <li><a href="#fase-2">2. Modelo Entidad-Relación</a></li>
-                <li><a href="#fase-3">3. Normalización</a></li>
-                <li><a href="#fase-4">4. Selección de SGBD</a></li>
-                <li><a href="#fase-5">5. Implantación Práctica</a></li>
+                <li><a href="#intro">1. Introducción y Fases</a></li>
+                <li><a href="#modelo-er">2. Modelo Entidad-Relación</a></li>
+                <li><a href="#normalizacion">3. Normalización</a></li>
+                <li><a href="#sgbd">4. Selección del SGBD</a></li>
+                <li><a href="#implantacion">5. Implantación Física</a></li>
             </ul>
         </nav>
-        
-        <section id="content">
-            <article id="fase-1">
-                <h2>1. Fases del Diseño de Bases de Datos</h2>
-                <p>El diseño de una BD es un proceso iterativo que se alinea con el ciclo de vida de la implantación de un sistema. Se divide en tres etapas clave:</p>
-                <ul>
-                    <li><dfn>Diseño Conceptual</dfn>: Se enfoca en entender las necesidades del negocio para definir la información y sus relaciones. Es independiente del SGBD a utilizar. El resultado es un esquema de alto nivel, generalmente el Modelo E-R.</li>
-                    <li><dfn>Diseño Lógico</dfn>: La traducción del esquema conceptual a un modelo de datos específico (casi siempre el Modelo Relacional). Aquí se aplican las reglas de <a href="#fase-3">Normalización</a>.</li>
-                    <li><dfn>Diseño Físico</dfn>: Se definen los detalles internos de almacenamiento: la creación de índices, la elección de tipos de datos específicos, la partición de tablas y la configuración de seguridad. Es totalmente dependiente del SGBD.</li>
-                </ul>
-            </article>
+    </aside>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main>
+        <header>
+            <h1>Manual de Bases de Datos</h1>
+            <p class="subtitle">Guía técnica para la asignatura de Implantación de Sistemas</p>
+        </header>
+
+        <!-- SECCIÓN 1 -->
+        <section id="intro">
+            <h2>1. Fases del Diseño</h2>
+            <p>En la implantación de sistemas, la base de datos no se crea de la nada. Sigue un ciclo de vida estructurado para garantizar que los datos sean íntegros y el sistema eficiente.</p>
             
-            <article id="fase-2">
-                <h2>2. Modelo Entidad-Relación (E-R)</h2>
-                <p>El Modelo E-R es la base conceptual para modelar la estructura de la información.</p>
-                <h3>Componentes Clave</h3>
-                <ul>
-                    <li><dfn>Entidades</dfn>: Objetos o cosas del mundo real que se quieren almacenar (ej. Cliente, Pedido, Curso). Se representan con rectángulos.</li>
-                    <li><dfn>Atributos</dfn>: Propiedades de las entidades (ej. DNI, Dirección del Cliente). La clave primaria (PK) se subraya.</li>
-                    <li><dfn>Relaciones</dfn>: Asociaciones entre dos o más entidades (ej. Un Cliente "Realiza" un Pedido). Se representan con rombos.</li>
-                </ul>
-                <h3>Cardinalidad de las Relaciones</h3>
-                <p>Define cuántas instancias de una entidad se relacionan con cuántas instancias de otra:</p>
-                <ol>
-                    <li>**Uno a Uno (1:1):** Ej. Un Empleado tiene un solo Coche de Empresa.</li>
-                    <li>**Uno a Muchos (1:N):** Ej. Un Departamento tiene Muchos Empleados.</li>
-                    <li>**Muchos a Muchos (N:M):** Ej. Un Estudiante se inscribe en Muchos Cursos, y un Curso tiene Muchos Estudiantes.</li>
-                </ol>
-                [Image of Modelo Entidad-Relación diagram components]
-            </article>
-
-            <article id="fase-3">
-                <h2>3. Normalización (Formas Normales)</h2>
-                <p>El objetivo de la normalización es evitar la redundancia y asegurar la integridad de los datos en el diseño lógico.</p>
-                <ol>
-                    <li><dfn>Primera Forma Normal (1FN)</dfn>: Los atributos deben ser atómicos. No debe haber grupos repetitivos dentro de las celdas.</li>
-                    <li><dfn>Segunda Forma Normal (2FN)</dfn>: Ya está en 1FN y todos los atributos no clave deben depender completamente de la clave primaria. Esto solo aplica a tablas con claves primarias compuestas.</li>
-                    <li><dfn>Tercera Forma Normal (3FN)</dfn>: Ya está en 2FN y no debe existir ninguna dependencia transitiva. Es decir, ningún atributo no clave debe depender de otro atributo no clave. (Ej. Mover el Nombre del Departamento a una tabla separada).</li>
-                </ol>
-                <blockquote>
-                    **Recomendación para Implantación:** La mayoría de los sistemas comerciales se diseñan para alcanzar al menos la 3FN, ya que proporciona un buen equilibrio entre integridad de datos y rendimiento.
-                </blockquote>
-                
-            </article>
-
-            <article id="fase-4">
-                <h2>4. Selección de SGBD (SQL vs. NoSQL)</h2>
-                <p>La elección del SGBD es crítica en la fase de implantación, ya que define el tipo de infraestructura necesaria.</p>
-                
-                <h3>Relacionales (SQL)</h3>
-                <ul>
-                    <li><dfn>Propiedades</dfn>: Garantizan <dfn>ACID</dfn> (Atomicidad, Consistencia, Aislamiento, Durabilidad). Tienen esquemas rígidos (tablas, filas, columnas).</li>
-                    <li><dfn>Uso Ideal</dfn>: Aplicaciones con alta necesidad de integridad de datos y transacciones complejas (bancos, sistemas de inventario, contabilidad).</li>
-                    <li><dfn>Ejemplos</dfn>: <code>PostgreSQL</code> (robusto), <code>MySQL</code> (popular), <code>SQL Server</code>.</li>
-                </ul>
-                
-                <h3>No Relacionales (NoSQL)</h3>
-                <ul>
-                    <li><dfn>Propiedades</dfn>: Priorizan la disponibilidad y la escalabilidad horizontal (modelo <dfn>BASE</dfn>). Tienen esquemas flexibles.</li>
-                    <li><dfn>Uso Ideal</dfn>: Grandes volúmenes de datos, datos no estructurados, aplicaciones con requerimientos de escalado extremo y rápido cambio (redes sociales, IoT, CMS).</li>
-                    <li><dfn>Ejemplos</dfn>: <code>MongoDB</code> (Documentos), <code>Redis</code> (Clave-Valor), <code>Cassandra</code> (Columna ancha).</li>
-                </ul>
-            </article>
-
-            <article id="fase-5">
-                <h2>5. Implantación Práctica y Conexión 💻</h2>
-                <p>La fase final consiste en llevar el diseño físico a la realidad operativa del sistema.</p>
-                <ol>
-                    <li><dfn>Creación de Esquema (DDL)</dfn>: Ejecutar el lenguaje de definición de datos para crear tablas, índices, vistas y restricciones.</li>
-                    <li><dfn>Carga Inicial de Datos</dfn>: Utilizar scripts o herramientas de migración para poblar la BD con datos iniciales (Maestros).</li>
-                    <li><dfn>Configuración de Conexión</dfn>: En el código de la aplicación (ej. PHP, Node.js, Java), configurar la cadena de conexión (servidor, puerto, usuario, contraseña).</li>
-                    <li><dfn>Uso de ORMs</dfn>: En la mayoría de los sistemas modernos, se utiliza un <dfn>Mapeador Objeto-Relacional (ORM)</dfn> para interactuar con la BD. Esto permite escribir código orientado a objetos en lugar de escribir consultas SQL directas.</li>
-                </ol>
-                <h3>Ejemplo de Consulta SQL (Lenguaje DML)</h3>
-                <pre style="background-color: #f0f0f0; padding: 10px; border-radius: 4px; overflow-x: auto;"><code>
--- Selecciona los clientes que realizaron un pedido en el último mes.
-SELECT c.nombre, c.email
-FROM Clientes c
-JOIN Pedidos p ON c.id_cliente = p.id_cliente
-WHERE p.fecha_pedido >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH);
-                </code></pre>
-            </article>
+            <h3>Las 3 Etapas Críticas</h3>
+            <ol>
+                <li><strong>Diseño Conceptual:</strong> Es la etapa de abstracción. Se identifican las necesidades del negocio sin pensar en tecnología. El resultado es el diagrama E-R.</li>
+                <li><strong>Diseño Lógico:</strong> Se transforma el concepto en estructuras de datos (tablas). Aquí se aplican las reglas de normalización para evitar duplicidad.</li>
+                <li><strong>Diseño Físico:</strong> Es la implementación real en el servidor. Involucra configuración de almacenamiento, índices y seguridad.</li>
+            </ol>
         </section>
-    </main>
 
-    <footer>
-        <p style="text-align: center; padding: 10px; background-color: #333; color: white; margin-top: 0;">
-            Elaborado para la asignatura de Implantación de Sistemas | &copy; 2025
-        </p>
-    </footer>
+        <!-- SECCIÓN 2 -->
+        <section id="modelo-er">
+            <h2>2. Modelo Entidad-Relación (E-R)</h2>
+            <p>Herramienta visual para representar la estructura lógica de la base de datos.</p>
+            
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Elemento</th>
+                        <th>Descripción</th>
+                        <th>Representación</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Entidad</strong></td>
+                        <td>Objeto real o abstracto (Cliente, Factura).</td>
+                        <td>Rectángulo</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Relación</strong></td>
+                        <td>Asociación entre entidades (Compra, Pertenece).</td>
+                        <td>Rombo</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Atributo</strong></td>
+                        <td>Propiedad de la entidad (Nombre, Precio).</td>
+                        <td>Elipse / Lista</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <blockquote>
+                <strong>Nota de Implantación:</strong> Un error en el modelo E-R es costoso de corregir una vez que el sistema está en producción. Dedica tiempo a validar las relaciones.
+            </blockquote>
+        </section>
+
+        <!-- SECCIÓN 3 -->
+        <section id="normalizacion">
+            <h2>3. Normalización</h2>
+            <p>Proceso matemático para organizar los datos y minimizar la redundancia. En sistemas empresariales, buscamos llegar hasta la Tercera Forma Normal (3FN).</p>
+
+            <h3>Reglas Esenciales</h3>
+            <ul>
+                <li><strong>1FN (Atomicidad):</strong> Cada celda de la tabla debe contener un único valor. Nada de listas separadas por comas.</li>
+                <li><strong>2FN (Dependencia Total):</strong> Todo atributo que no sea clave debe depender de <em>toda</em> la clave primaria (vital en claves compuestas).</li>
+                <li><strong>3FN (Independencia):</strong> No deben existir dependencias entre columnas que no son clave. Ej: La columna "NombreProvincia" no debe depender de "CodigoPostal" si la clave es "ID_Usuario".</li>
+            </ul>
+        </section>
+
+        <!-- SECCIÓN 4 -->
+        <section id="sgbd">
+            <h2>4. Selección del SGBD</h2>
+            <p>La decisión tecnológica más importante antes de instalar el software.</p>
+
+            <h3>SQL (Relacionales)</h3>
+            <p>Estructurados, rígidos y seguros. Ideales para sistemas transaccionales (ERP, CRM, Contabilidad).</p>
+            <ul>
+                <li><strong>MySQL / MariaDB:</strong> Estándar web, licencia flexible.</li>
+                <li><strong>PostgreSQL:</strong> El más avanzado y robusto de código abierto.</li>
+                <li><strong>SQL Server:</strong> Integración nativa con entornos corporativos Microsoft.</li>
+            </ul>
+
+            <h3>NoSQL (No Relacionales)</h3>
+            <p>Flexibles y escalables. Ideales para Big Data, IoT o contenido dinámico.</p>
+            <ul>
+                <li><strong>MongoDB:</strong> Basado en documentos JSON.</li>
+                <li><strong>Redis:</strong> Almacenamiento clave-valor en memoria (velocidad extrema).</li>
+            </ul>
+        </section>
+
+        <!-- SECCIÓN 5 -->
+        <section id="implantacion">
+            <h2>5. Implantación Física</h2>
+            <p>Pasos técnicos para poner el sistema en marcha (Deployment).</p>
+
+            <h3>1. DDL (Data Definition Language)</h3>
+            <p>Es el script que crea la estructura. Ejemplo de creación de una tabla optimizada:</p>
+            
+            <pre>
+CREATE TABLE Usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(150) UNIQUE NOT NULL,
+    password_hash CHAR(64) NOT NULL,
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_email (email) -- Índice para búsquedas rápidas
+) ENGINE=InnoDB;</pre>
+
+            <h3>2. Conexión desde el Sistema</h3>
+            <p>Configuración típica en un archivo de entorno (<code>.env</code>) para seguridad:</p>
+            <pre>
+DB_HOST=192.168.1.50
+DB_PORT=3306
+DB_NAME=sistema_ventas
+DB_USER=app_user
+DB_PASS=secret_secure_password</pre>
+        </section>
+
+        <footer>
+            <p>© 2025 Manual de Implantación de Sistemas | Versión 1.0</p>
+        </footer>
+    </main>
+</div>
+
 </body>
 </html>
