@@ -2,96 +2,297 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Manual de Bases de Datos para Implantación de Sistemas</title>
-                <link rel="stylesheet" href="style.css">
-                </head>
-                <body>
-                    <header>
-                            <h1>📚 Manual: Bases de Datos en Implantación de Sistemas</h1>
-                                </header>
-                                    
-                                        <main>
-                                                <nav id="sidebar">
-                                                            <h2>Índice Temático</h2>
-                                                                        <ul>
-                                                                                        <li><a href="#fase-1">1. Fases del Diseño de BD</a></li>
-                                                                                                        <li><a href="#fase-2">2. Modelo Entidad-Relación (E-R)</a></li>
-                                                                                                                        <li><a href="#fase-3">3. Normalización (Formas Normales)</a></li>
-                                                                                                                                        <li><a href="#fase-4">4. Selección de SGBD (SQL vs. NoSQL)</a></li>
-                                                                                                                                                        <li><a href="#fase-5">5. Implantación y Conexión</a></li>
-                                                                                                                                                                    </ul>
-                                                                                                                                                                            </nav>
-                                                                                                                                                                                    
-                                                                                                                                                                                            <section id="content">
-                                                                                                                                                                                                        <article id="fase-1">
-                                                                                                                                                                                                                        <h2>1. Fases del Diseño de BD</h2>
-                                                                                                                                                                                                                                        <p>El diseño de una BD en la implantación de un sistema se divide en tres etapas principales:</p>
-                                                                                                                                                                                                                                                        <ul>
-                                                                                                                                                                                                                                                                            <li>**Diseño Conceptual:** Se define la información a almacenar y las relaciones entre ellas (Modelo E-R). Es independiente de la tecnología.</li>
-                                                                                                                                                                                                                                                                                                <li>**Diseño Lógico:** Se traduce el modelo conceptual a un modelo de datos específico (ej. Relacional, orientado a objetos). Se aplican reglas de normalización.</li>
-                                                                                                                                                                                                                                                                                                                    <li>**Diseño Físico:** Se define cómo se almacenarán los datos en el disco (índices, particiones, tipos de datos específicos). Depende del SGBD elegido (MySQL, PostgreSQL, etc.).</li>
-                                                                                                                                                                                                                                                                                                                                    </ul>
-                                                                                                                                                                                                                                                                                                                                                </article>
-                                                                                                                                                                                                                                                                                                                                                            
-                                                                                                                                                                                                                                                                                                                                                                        <article id="fase-2">
-                                                                                                                                                                                                                                                                                                                                                                                        <h2>2. Modelo Entidad-Relación (E-R)</h2>
-                                                                                                                                                                                                                                                                                                                                                                                                        <p>El modelo E-R es la herramienta conceptual básica. Sus componentes son:</p>
-                                                                                                                                                                                                                                                                                                                                                                                                                        <ul>
-                                                                                                                                                                                                                                                                                                                                                                                                                                            <li>**Entidades:** Representan objetos o cosas del mundo real (ej. <strong>Cliente</strong>, <strong>Producto</strong>). Se representan con **rectángulos**.</li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                <li>**Atributos:** Son las propiedades de las entidades (ej. <em>Nombre, Teléfono</em> del Cliente).</li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <li>**Relaciones:** Asocian entidades (ej. Un <strong>Cliente</strong> puede <strong>Comprar</strong> uno o varios <strong>Productos</strong>). Se representan con **rombos**.</li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </ul>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <p>Es crucial definir la **cardinalidad** de las relaciones (1:1, 1:N, N:M).</p>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </article>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual: Bases de Datos en Implantación de Sistemas</title>
+    
+    <style>
+        /* -------------------------------------- */
+        /* 1. Reset Básico y Tipografía */
+        /* -------------------------------------- */
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif; 
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+        }
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <article id="fase-3">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <h2>3. Normalización (Formas Normales)</h2>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <p>La normalización es un proceso para organizar las columnas y tablas de una base de datos relacional con el objetivo de **reducir la redundancia** y **mejorar la integridad** de los datos. Las formas normales más comunes son:</p>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <ol>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <li>**1FN (Primera Forma Normal):** Los atributos deben ser atómicos (sin valores múltiples o repetidos dentro de una celda).</li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <li>**2FN (Segunda Forma Normal):** Debe estar en 1FN y todos los atributos no clave deben depender completamente de la clave primaria (no puede haber dependencia parcial).</li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <li>**3FN (Tercera Forma Normal):** Debe estar en 2FN y no debe haber dependencias transitivas (ningún atributo no clave debe depender de otro atributo no clave).</li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </ol>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <blockquote style="border-left: 5px solid #007bff; padding-left: 15px;">**Importancia en la Implantación:** Una BD bien normalizada facilita el mantenimiento y la consistencia de la información del sistema.</blockquote>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </article>
+        header {
+            background-color: #004c99; /* Azul oscuro corporativo */
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 <article id="fase-4">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 <h2>4. Selección de SGBD (SQL vs. NoSQL)</h2>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 <p>La elección del Sistema Gestor de Bases de Datos (SGBD) impacta directamente en la implantación:</p>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 <h3>Bases de Datos Relacionales (SQL)</h3>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 <ul>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <li>**Características:** Estructura fija (Tablas con esquemas definidos), transacciones ACID (Atomicidad, Consistencia, Aislamiento, Durabilidad).</li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         <li>**Uso Ideal:** Sistemas donde la integridad de los datos es crítica (sistemas bancarios, inventarios, contabilidad).</li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             <li>**Ejemplos:** MySQL, PostgreSQL, Oracle.</li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </ul>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             <h3>Bases de Datos No Relacionales (NoSQL)</h3>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             <ul>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 <li>**Características:** Esquema flexible o dinámico. Priorizan la escalabilidad horizontal y la disponibilidad (modelo BASE).</li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <li>**Uso Ideal:** Aplicaciones web con grandes volúmenes de datos o cambios rápidos (redes sociales, IoT, contenido en tiempo real).</li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         <li>**Ejemplos:** MongoDB (Documentos), Redis (Clave-Valor), Cassandra (Columna ancha).</li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </ul>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </article>
+        /* -------------------------------------- */
+        /* 2. Flexbox y Estructura Principal */
+        /* -------------------------------------- */
+        main {
+            display: flex; 
+            max-width: 1300px;
+            margin: 20px auto;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden; /* Importante para el sticky sidebar */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+        }
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 <article id="fase-5">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 <h2>5. Implantación y Conexión 💻</h2>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 <p>Esta fase final conecta la BD con el software del sistema:</p>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 <ol>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <li>**Configuración del SGBD:** Instalar y configurar el software de la BD en el servidor.</li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         <li>**Ejecución de Scripts (DDL/DML):** Crear el esquema de la base de datos (DDL - Data Definition Language, ej. `CREATE TABLE`) y cargar datos iniciales (DML - Data Manipulation Language, ej. `INSERT`).</li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             <li>**Conexión (Driver/ORM):** En la aplicación, usar un driver o un **ORM (Object-Relational Mapper)** para establecer la comunicación con el servidor de BD. (Ej. PDO en PHP, Sequelize en Node.js, Hibernate en Java).</li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 <li>**Pruebas de Integración:** Verificar que la aplicación lee, escribe y modifica los datos correctamente.</li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </ol>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </article>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </section>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </main>
+        #sidebar {
+            width: 280px; /* Ancho cómodo para el índice */
+            flex-shrink: 0; 
+            padding: 20px 0 20px 20px;
+            background-color: #e9ecef;
+            border-right: 1px solid #ccc;
+            /* Sticky en escritorio */
+            position: sticky;
+            top: 0; 
+            max-height: 100vh; 
+            overflow-y: auto;
+        }
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             <footer>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <p>Elaborado para la asignatura de Implantación de Sistemas | &copy; 2025</p>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </footer>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </body>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </html>
+        #content {
+            flex-grow: 1; 
+            padding: 30px 50px; 
+        }
+
+        /* -------------------------------------- */
+        /* 3. Estilos de Índice (Sidebar) */
+        /* -------------------------------------- */
+        #sidebar h2 {
+            color: #004c99;
+            margin-top: 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #004c99;
+        }
+        
+        #sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        #sidebar a {
+            text-decoration: none;
+            color: #333;
+            display: block;
+            padding: 10px 15px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        #sidebar a:hover {
+            background-color: #d1d8df;
+            color: #004c99;
+        }
+
+        /* -------------------------------------- */
+        /* 4. Estilos de Contenido y Semántica */
+        /* -------------------------------------- */
+        article {
+            margin-bottom: 50px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed #ddd;
+        }
+        
+        article:last-child {
+            border-bottom: none;
+        }
+
+        h2 {
+            color: #007bff; /* Títulos de sección en azul claro */
+            font-size: 1.8em;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            color: #333;
+            border-left: 4px solid #007bff;
+            padding-left: 10px;
+            margin-top: 30px;
+        }
+
+        /* Términos Definidos (mejor que solo negrita) */
+        dfn {
+            font-weight: bold;
+            font-style: normal;
+            color: #a00000; /* Rojo borgoña para términos clave */
+            background-color: #ffcccc20;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        /* Código / Comandos SQL */
+        code {
+            background-color: #f0f0f0;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: Consolas, 'Courier New', monospace;
+            color: #1a1a1a;
+        }
+
+        /* Blockquotes para citas o notas importantes */
+        blockquote {
+            border-left: 5px solid #28a745; /* Verde para destacar notas */
+            background-color: #eaf7ee;
+            padding: 15px;
+            margin: 20px 0;
+            font-style: italic;
+            color: #38761d;
+            border-radius: 4px;
+        }
+
+        /* -------------------------------------- */
+        /* 5. Responsividad Móvil */
+        /* -------------------------------------- */
+        @media (max-width: 900px) {
+            main {
+                flex-direction: column; /* Apila elementos */
+                margin: 0;
+                border-radius: 0;
+                box-shadow: none;
+            }
+
+            #sidebar {
+                width: 100%; /* Ocupa todo el ancho */
+                border-right: none;
+                border-bottom: 1px solid #ccc; 
+                position: static; /* Desactiva sticky en móvil */
+                max-height: initial; 
+                overflow-y: initial;
+                padding: 15px;
+            }
+
+            #content {
+                padding: 15px;
+            }
+
+            /* Mostrar el índice como un menú desplegable simplificado en móvil */
+            #sidebar ul {
+                display: flex;
+                flex-wrap: wrap; /* Permite que los ítems se envuelvan */
+                gap: 5px;
+            }
+
+            #sidebar li {
+                flex: 1 1 auto; /* Permite a los ítems ajustarse al contenido */
+                min-width: 45%; /* Mínimo de dos columnas por fila */
+            }
+
+            #sidebar a {
+                text-align: center;
+                border: 1px solid #ccc;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📚 Manual: Bases de Datos en Implantación de Sistemas</h1>
+        <p>Conceptos esenciales desde el diseño conceptual hasta la puesta en marcha.</p>
+    </header>
+    
+    <main>
+        <nav id="sidebar">
+            <h2>Índice Temático</h2>
+            <ul>
+                <li><a href="#fase-1">1. Fases del Diseño</a></li>
+                <li><a href="#fase-2">2. Modelo Entidad-Relación</a></li>
+                <li><a href="#fase-3">3. Normalización</a></li>
+                <li><a href="#fase-4">4. Selección de SGBD</a></li>
+                <li><a href="#fase-5">5. Implantación Práctica</a></li>
+            </ul>
+        </nav>
+        
+        <section id="content">
+            <article id="fase-1">
+                <h2>1. Fases del Diseño de Bases de Datos</h2>
+                <p>El diseño de una BD es un proceso iterativo que se alinea con el ciclo de vida de la implantación de un sistema. Se divide en tres etapas clave:</p>
+                <ul>
+                    <li><dfn>Diseño Conceptual</dfn>: Se enfoca en entender las necesidades del negocio para definir la información y sus relaciones. Es independiente del SGBD a utilizar. El resultado es un esquema de alto nivel, generalmente el Modelo E-R.</li>
+                    <li><dfn>Diseño Lógico</dfn>: La traducción del esquema conceptual a un modelo de datos específico (casi siempre el Modelo Relacional). Aquí se aplican las reglas de <a href="#fase-3">Normalización</a>.</li>
+                    <li><dfn>Diseño Físico</dfn>: Se definen los detalles internos de almacenamiento: la creación de índices, la elección de tipos de datos específicos, la partición de tablas y la configuración de seguridad. Es totalmente dependiente del SGBD.</li>
+                </ul>
+            </article>
+            
+            <article id="fase-2">
+                <h2>2. Modelo Entidad-Relación (E-R)</h2>
+                <p>El Modelo E-R es la base conceptual para modelar la estructura de la información.</p>
+                <h3>Componentes Clave</h3>
+                <ul>
+                    <li><dfn>Entidades</dfn>: Objetos o cosas del mundo real que se quieren almacenar (ej. Cliente, Pedido, Curso). Se representan con rectángulos.</li>
+                    <li><dfn>Atributos</dfn>: Propiedades de las entidades (ej. DNI, Dirección del Cliente). La clave primaria (PK) se subraya.</li>
+                    <li><dfn>Relaciones</dfn>: Asociaciones entre dos o más entidades (ej. Un Cliente "Realiza" un Pedido). Se representan con rombos.</li>
+                </ul>
+                <h3>Cardinalidad de las Relaciones</h3>
+                <p>Define cuántas instancias de una entidad se relacionan con cuántas instancias de otra:</p>
+                <ol>
+                    <li>**Uno a Uno (1:1):** Ej. Un Empleado tiene un solo Coche de Empresa.</li>
+                    <li>**Uno a Muchos (1:N):** Ej. Un Departamento tiene Muchos Empleados.</li>
+                    <li>**Muchos a Muchos (N:M):** Ej. Un Estudiante se inscribe en Muchos Cursos, y un Curso tiene Muchos Estudiantes.</li>
+                </ol>
+                [Image of Modelo Entidad-Relación diagram components]
+            </article>
+
+            <article id="fase-3">
+                <h2>3. Normalización (Formas Normales)</h2>
+                <p>El objetivo de la normalización es evitar la redundancia y asegurar la integridad de los datos en el diseño lógico.</p>
+                <ol>
+                    <li><dfn>Primera Forma Normal (1FN)</dfn>: Los atributos deben ser atómicos. No debe haber grupos repetitivos dentro de las celdas.</li>
+                    <li><dfn>Segunda Forma Normal (2FN)</dfn>: Ya está en 1FN y todos los atributos no clave deben depender completamente de la clave primaria. Esto solo aplica a tablas con claves primarias compuestas.</li>
+                    <li><dfn>Tercera Forma Normal (3FN)</dfn>: Ya está en 2FN y no debe existir ninguna dependencia transitiva. Es decir, ningún atributo no clave debe depender de otro atributo no clave. (Ej. Mover el Nombre del Departamento a una tabla separada).</li>
+                </ol>
+                <blockquote>
+                    **Recomendación para Implantación:** La mayoría de los sistemas comerciales se diseñan para alcanzar al menos la 3FN, ya que proporciona un buen equilibrio entre integridad de datos y rendimiento.
+                </blockquote>
+                
+            </article>
+
+            <article id="fase-4">
+                <h2>4. Selección de SGBD (SQL vs. NoSQL)</h2>
+                <p>La elección del SGBD es crítica en la fase de implantación, ya que define el tipo de infraestructura necesaria.</p>
+                
+                <h3>Relacionales (SQL)</h3>
+                <ul>
+                    <li><dfn>Propiedades</dfn>: Garantizan <dfn>ACID</dfn> (Atomicidad, Consistencia, Aislamiento, Durabilidad). Tienen esquemas rígidos (tablas, filas, columnas).</li>
+                    <li><dfn>Uso Ideal</dfn>: Aplicaciones con alta necesidad de integridad de datos y transacciones complejas (bancos, sistemas de inventario, contabilidad).</li>
+                    <li><dfn>Ejemplos</dfn>: <code>PostgreSQL</code> (robusto), <code>MySQL</code> (popular), <code>SQL Server</code>.</li>
+                </ul>
+                
+                <h3>No Relacionales (NoSQL)</h3>
+                <ul>
+                    <li><dfn>Propiedades</dfn>: Priorizan la disponibilidad y la escalabilidad horizontal (modelo <dfn>BASE</dfn>). Tienen esquemas flexibles.</li>
+                    <li><dfn>Uso Ideal</dfn>: Grandes volúmenes de datos, datos no estructurados, aplicaciones con requerimientos de escalado extremo y rápido cambio (redes sociales, IoT, CMS).</li>
+                    <li><dfn>Ejemplos</dfn>: <code>MongoDB</code> (Documentos), <code>Redis</code> (Clave-Valor), <code>Cassandra</code> (Columna ancha).</li>
+                </ul>
+            </article>
+
+            <article id="fase-5">
+                <h2>5. Implantación Práctica y Conexión 💻</h2>
+                <p>La fase final consiste en llevar el diseño físico a la realidad operativa del sistema.</p>
+                <ol>
+                    <li><dfn>Creación de Esquema (DDL)</dfn>: Ejecutar el lenguaje de definición de datos para crear tablas, índices, vistas y restricciones.</li>
+                    <li><dfn>Carga Inicial de Datos</dfn>: Utilizar scripts o herramientas de migración para poblar la BD con datos iniciales (Maestros).</li>
+                    <li><dfn>Configuración de Conexión</dfn>: En el código de la aplicación (ej. PHP, Node.js, Java), configurar la cadena de conexión (servidor, puerto, usuario, contraseña).</li>
+                    <li><dfn>Uso de ORMs</dfn>: En la mayoría de los sistemas modernos, se utiliza un <dfn>Mapeador Objeto-Relacional (ORM)</dfn> para interactuar con la BD. Esto permite escribir código orientado a objetos en lugar de escribir consultas SQL directas.</li>
+                </ol>
+                <h3>Ejemplo de Consulta SQL (Lenguaje DML)</h3>
+                <pre style="background-color: #f0f0f0; padding: 10px; border-radius: 4px; overflow-x: auto;"><code>
+-- Selecciona los clientes que realizaron un pedido en el último mes.
+SELECT c.nombre, c.email
+FROM Clientes c
+JOIN Pedidos p ON c.id_cliente = p.id_cliente
+WHERE p.fecha_pedido >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH);
+                </code></pre>
+            </article>
+        </section>
+    </main>
+
+    <footer>
+        <p style="text-align: center; padding: 10px; background-color: #333; color: white; margin-top: 0;">
+            Elaborado para la asignatura de Implantación de Sistemas | &copy; 2025
+        </p>
+    </footer>
+</body>
+</html>
