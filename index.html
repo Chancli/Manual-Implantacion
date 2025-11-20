@@ -3,74 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manual Técnico: Bases de Datos e Implantación</title>
+    <title>Manual Técnico: Bases de Datos</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* --- Variables de Diseño (Estilo Empresarial Moderno) --- */
+        /* --------------------------------------------------
+           1. VARIABLES & TEMA (Enterprise Minimal)
+           -------------------------------------------------- */
         :root {
-            --primary-dark: #1e293b;    /* Azul Pizarra Oscuro */
-            --primary-brand: #3b82f6;   /* Azul Corporativo */
-            --bg-sidebar: #f8fafc;      /* Gris muy claro */
-            --bg-content: #ffffff;      /* Blanco */
-            --text-main: #334155;       /* Gris texto */
-            --text-headings: #0f172a;   /* Negro azulado */
+            /* Paleta de Colores */
+            --bg-body: #f8fafc;       /* Fondo general suave */
+            --bg-sidebar: #ffffff;    /* Sidebar blanco puro */
+            --bg-card: #ffffff;       /* Tarjetas blancas */
+            
+            --text-primary: #334155;  /* Gris oscuro para lectura */
+            --text-headings: #0f172a; /* Casi negro para títulos */
+            --text-muted: #94a3b8;    /* Gris claro para detalles */
+            
+            --brand-color: #2563eb;   /* Azul Corporativo (Royal Blue) */
+            --brand-hover: #1d4ed8;   
+            
             --border-color: #e2e8f0;
-            --accent-success: #10b981;
-            --accent-warning: #f59e0b;
-            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
-            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+            
+            --code-bg: #1e293b;       /* Fondo oscuro para código */
+            --success: #10b981;
+            --warning: #f59e0b;
+            
+            /* Sombras */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
 
-        /* --- Reset & Base --- */
+        /* --------------------------------------------------
+           2. RESET & ESTRUCTURA BASE
+           -------------------------------------------------- */
         * { box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
         
+        html { scroll-behavior: smooth; }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-content);
-            color: var(--text-main);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-primary);
             margin: 0;
+            padding: 0;
             line-height: 1.6;
-            display: flex;
+            display: flex; /* Layout Flexbox para Sidebar + Contenido */
             min-height: 100vh;
         }
 
-        /* --- Sidebar de Navegación (Sticky) --- */
+        /* --------------------------------------------------
+           3. SIDEBAR (BARRA LATERAL)
+           -------------------------------------------------- */
         aside {
-            width: 280px;
+            width: 280px; /* Ancho fijo */
             background-color: var(--bg-sidebar);
             border-right: 1px solid var(--border-color);
-            height: 100vh;
-            position: sticky;
+            height: 100vh; /* Altura completa de la ventana */
+            position: sticky; /* Se queda fijo al hacer scroll */
             top: 0;
-            overflow-y: auto;
-            flex-shrink: 0;
             display: flex;
             flex-direction: column;
-            z-index: 100;
+            flex-shrink: 0; /* No encogerse */
+            z-index: 1000;
+            box-shadow: var(--shadow-sm);
         }
 
-        .brand-area {
+        .brand {
             padding: 2rem;
             border-bottom: 1px solid var(--border-color);
         }
 
-        .brand-area h2 {
+        .brand h1 {
+            font-size: 1.2rem;
             margin: 0;
-            font-size: 1.1rem;
-            color: var(--primary-dark);
+            color: var(--text-headings);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .brand span {
+            font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-        }
-
-        .brand-area span {
-            font-size: 0.8rem;
-            color: var(--primary-brand);
+            color: var(--brand-color);
             font-weight: 600;
         }
 
         nav {
             padding: 1.5rem 1rem;
+            overflow-y: auto; /* Scroll interno si el menú es muy largo */
             flex-grow: 1;
         }
 
@@ -80,33 +101,403 @@
             margin: 0;
         }
 
-        nav li { margin-bottom: 0.25rem; }
+        nav li { margin-bottom: 4px; }
 
         nav a {
-            display: flex;
-            align-items: center;
+            display: block;
             padding: 0.75rem 1rem;
-            color: var(--text-main);
+            color: var(--text-primary);
             text-decoration: none;
             font-size: 0.9rem;
+            font-weight: 500;
             border-radius: 6px;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.2s ease;
             border-left: 3px solid transparent;
         }
 
         nav a:hover {
-            background-color: #eef2ff;
-            color: var(--primary-brand);
-            transform: translateX(4px);
+            background-color: #eff6ff;
+            color: var(--brand-color);
         }
 
+        /* Clase activa (puedes usar JS para alternarla) */
         nav a.active {
-            background-color: #dbeafe;
-            color: var(--primary-brand);
-            border-left-color: var(--primary-brand);
-            font-weight: 600;
+            background-color: #eff6ff;
+            color: var(--brand-color);
+            border-left-color: var(--brand-color);
         }
 
+        .sidebar-footer {
+            padding: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        /* --------------------------------------------------
+           4. CONTENIDO PRINCIPAL
+           -------------------------------------------------- */
+        main {
+            flex-grow: 1;
+            padding: 4rem 5rem; /* Espaciado generoso */
+            max-width: 1200px;  /* Ancho máximo de lectura */
+        }
+
+        header {
+            margin-bottom: 4rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 2rem;
+        }
+
+        header h2 {
+            font-size: 2.5rem;
+            color: var(--text-headings);
+            margin: 0 0 0.5rem 0;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        section {
+            margin-bottom: 6rem;
+            scroll-margin-top: 2rem; /* Offset para el anclaje */
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            color: var(--text-headings);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* Línea decorativa bajo H3 */
+        h3::after {
+            content: "";
+            flex-grow: 1;
+            height: 1px;
+            background-color: var(--border-color);
+            margin-left: 1rem;
+        }
+
+        h4 {
+            font-size: 1.2rem;
+            color: var(--text-headings);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        p { margin-bottom: 1.5rem; }
+
+        /* --------------------------------------------------
+           5. COMPONENTES (Tarjetas, Código, Tablas)
+           -------------------------------------------------- */
+        
+        /* Tarjetas (Grid) */
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .card {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--brand-color);
+        }
+
+        .card-icon {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            padding: 10px;
+            background-color: #eff6ff;
+            border-radius: 8px;
+            color: var(--brand-color);
+        }
+
+        /* Bloques de Código */
+        .code-wrapper {
+            background-color: var(--code-bg);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            overflow-x: auto;
+            box-shadow: var(--shadow-md);
+            border-left: 4px solid var(--brand-color);
+        }
+
+        code, pre {
+            font-family: 'Fira Code', 'Consolas', monospace;
+            color: #e2e8f0;
+            font-size: 0.9rem;
+        }
+        
+        .kw { color: #c678dd; } /* Keyword (morado) */
+        .fn { color: #61afef; } /* Function (azul) */
+        .str { color: #98c379; } /* String (verde) */
+        .cmt { color: #5c6370; font-style: italic; } /* Comment (gris) */
+
+        /* Alertas */
+        .alert {
+            padding: 1rem 1.5rem;
+            background-color: #fffbeb;
+            border: 1px solid #fcd34d;
+            color: #92400e;
+            border-radius: 8px;
+            margin: 2rem 0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* Imágenes / Diagramas */
+        .diagram-container {
+            text-align: center;
+            margin: 3rem 0;
+            padding: 2rem;
+            background-color: white;
+            border: 1px dashed var(--border-color);
+            border-radius: 8px;
+            color: var(--text-muted);
+        }
+
+        /* --------------------------------------------------
+           6. RESPONSIVE (MÓVIL)
+           -------------------------------------------------- */
+        @media (max-width: 900px) {
+            body {
+                flex-direction: column; /* Sidebar pasa arriba */
+            }
+
+            aside {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            nav ul {
+                display: flex;
+                overflow-x: auto; /* Scroll horizontal en menú móvil */
+                padding-bottom: 5px;
+            }
+
+            nav a {
+                white-space: nowrap;
+                margin-right: 5px;
+            }
+
+            main {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 🟢 SIDEBAR FIJO -->
+    <aside>
+        <div class="brand">
+            <span>Módulo 3</span>
+            <h1>Implantación de Sistemas</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#intro" class="active">1. Ciclo de Vida</a></li>
+                <li><a href="#modelo-er">2. Modelo Entidad-Relación</a></li>
+                <li><a href="#normalizacion">3. Normalización</a></li>
+                <li><a href="#sgbd">4. Selección del SGBD</a></li>
+                <li><a href="#seguridad">5. Seguridad (DCL)</a></li>
+                <li><a href="#backup">6. Estrategias de Backup</a></li>
+                <li><a href="#optimizacion">7. Optimización</a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer">
+            Versión 2.5<br>Actualizado 2025
+        </div>
+    </aside>
+
+    <!-- 🔵 CONTENIDO PRINCIPAL -->
+    <main>
+        <header>
+            <h2>Manual de Bases de Datos</h2>
+            <p class="subtitle">Guía técnica para el diseño, despliegue y administración en entornos productivos.</p>
+        </header>
+
+        <!-- SECCIÓN 1 -->
+        <section id="intro">
+            <h3>1. Ciclo de Vida del Dato</h3>
+            <p>La implantación no es solo instalar software. Es un proceso que comienza en el papel y termina en el servidor.</p>
+            
+            <div class="grid-cards">
+                <div class="card">
+                    <div class="card-icon">📐</div>
+                    <h4>Diseño Conceptual</h4>
+                    <p>Abstracción pura. Entender el negocio sin pensar en tecnología. Resultado: Esquemas y reglas.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">⚙️</div>
+                    <h4>Diseño Lógico</h4>
+                    <p>Estructuración. Tablas, claves foráneas y normalización para evitar redundancia.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🚀</div>
+                    <h4>Diseño Físico</h4>
+                    <p>Hardware y SQL. Configuración de discos (RAID), particionamiento y scripts DDL.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2 -->
+        <section id="modelo-er">
+            <h3>2. Modelo Entidad-Relación (E-R)</h3>
+            <p>Antes de escribir una sola línea de código, debemos modelar la realidad.</p>
+            
+            <div class="diagram-container">
+                
+                <br><em>Esquema visual de Entidades (Rectángulos) y Relaciones (Rombos).</em>
+            </div>
+
+            <h4>Cardinalidades Clave</h4>
+            <ul>
+                <li><strong>1:1 (Uno a Uno):</strong> Un usuario tiene un único perfil de configuración.</li>
+                <li><strong>1:N (Uno a Muchos):</strong> Un cliente puede realizar muchos pedidos.</li>
+                <li><strong>N:M (Muchos a Muchos):</strong> Un alumno cursa muchas materias, y una materia tiene muchos alumnos. (Requiere tabla pivote).</li>
+            </ul>
+        </section>
+
+        <!-- SECCIÓN 3 -->
+        <section id="normalizacion">
+            <h3>3. Normalización</h3>
+            <p>El arte de dividir datos para evitar anomalías de actualización. En sistemas profesionales buscamos la <strong>3FN</strong>.</p>
+
+            <div class="alert">
+                ⚠️ <strong>Advertencia:</strong> Una base de datos no normalizada (desordenada) se vuelve lenta y propensa a errores con el tiempo.
+            </div>
+
+            <div class="grid-cards">
+                <div class="card">
+                    <h4>1FN (Atomicidad)</h4>
+                    <p>No guardar listas en una celda (ej: "Rojo, Azul, Verde"). Cada dato en su propia fila/columna.</p>
+                </div>
+                <div class="card">
+                    <h4>2FN (Dependencia Total)</h4>
+                    <p>Todo dato debe depender de la clave primaria completa (vital en claves compuestas).</p>
+                </div>
+                <div class="card">
+                    <h4>3FN (Independencia)</h4>
+                    <p>Los datos no deben depender de otros campos que no sean la clave (ej: La ciudad depende del código postal, no del usuario).</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 4 -->
+        <section id="sgbd">
+            <h3>4. Selección del SGBD</h3>
+            <p>¿SQL o NoSQL? La decisión define la arquitectura del sistema.</p>
+            
+
+            <div class="code-wrapper">
+<pre>
+<span class="cmt">-- Ejemplo de diferencia conceptual</span>
+
+<span class="cmt">-- SQL (Estructurado, Relacional - MySQL/Postgres)</span>
+<span class="kw">CREATE TABLE</span> usuarios (
+    id <span class="kw">INT PRIMARY KEY</span>,
+    nombre <span class="kw">VARCHAR</span>(50)
+);
+
+<span class="cmt">-- NoSQL (Flexible, Documental - MongoDB)</span>
+{
+    <span class="str">"_id"</span>: <span class="kw">ObjectId</span>(<span class="str">"507f1f77bcf86cd799439011"</span>),
+    <span class="str">"nombre"</span>: <span class="str">"Juan"</span>,
+    <span class="str">"hobbies"</span>: [<span class="str">"Fútbol"</span>, <span class="str">"Cine"</span>] <span class="cmt">// Arrays permitidos</span>
+}
+</pre>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 5 -->
+        <section id="seguridad">
+            <h3>5. Seguridad (DCL)</h3>
+            <p>Uso del lenguaje de control de datos para gestionar accesos. <strong>Nunca usar usuario root en la app.</strong></p>
+
+            <div class="code-wrapper">
+<pre>
+<span class="cmt">-- 1. Crear usuario restringido para la aplicación</span>
+<span class="kw">CREATE USER</span> <span class="str">'app_ventas'</span>@<span class="str">'192.168.1.50'</span> <span class="kw">IDENTIFIED BY</span> <span class="str">'PassSegura123!'</span>;
+
+<span class="cmt">-- 2. Asignar solo permisos CRUD (Principio de menor privilegio)</span>
+<span class="kw">GRANT SELECT, INSERT, UPDATE</span> <span class="kw">ON</span> db_tienda.* <span class="kw">TO</span> <span class="str">'app_ventas'</span>;
+
+<span class="cmt">-- 3. Aplicar cambios</span>
+<span class="kw">FLUSH PRIVILEGES</span>;
+</pre>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 6 -->
+        <section id="backup">
+            <h3>6. Estrategias de Backup</h3>
+            <p>Garantizar la continuidad del negocio ante fallos catastróficos.</p>
+            <ul>
+                <li><strong>Full Backup:</strong> Copia completa. Lento pero fácil de restaurar. (Se hace semanalmente).</li>
+                <li><strong>Incremental:</strong> Solo guarda lo que cambió desde el último backup (de cualquier tipo). Rápido de hacer, lento de restaurar.</li>
+                <li><strong>Diferencial:</strong> Guarda lo que cambió desde el último backup <em>Full</em>. Equilibrio ideal.</li>
+            </ul>
+        </section>
+
+        <!-- SECCIÓN 7 -->
+        <section id="optimizacion">
+            <h3>7. Optimización e Índices</h3>
+            <p>Un índice es como el índice de un libro: permite encontrar datos sin leer todas las páginas.</p>
+            <p><strong>Cuándo usar índices:</strong> En columnas que se usan frecuentemente en cláusulas <code>WHERE</code>, <code>JOIN</code> o <code>ORDER BY</code>.</p>
+            
+            <div class="code-wrapper">
+<pre>
+<span class="cmt">-- Sin índice: La BD escanea 1 millón de filas (Full Table Scan)</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> clientes <span class="kw">WHERE</span> email = <span class="str">'juan@gmail.com'</span>;
+
+<span class="cmt">-- Optimización: Crear índice B-Tree</span>
+<span class="kw">CREATE INDEX</span> idx_email <span class="kw">ON</span> clientes(email);
+
+<span class="cmt">-- Resultado: La búsqueda es instantánea (Index Seek)</span>
+</pre>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Script simple para navegación activa -->
+    <script>
+        const links = document.querySelectorAll('nav a');
+        links.forEach(link => {
+            link.addEventListener('click', function() {
+                links.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
         .sidebar-footer {
             padding: 1.5rem;
             font-size: 0.75rem;
